@@ -71,6 +71,7 @@ model Pioneer {
     notableWorks     NotableWork[]
     funFacts         FunFact[]
     influences       Influence[]
+    views            PioneerView[]
 
     @@index([era])
     @@index([contributionYear])
@@ -159,4 +160,19 @@ model Influence {
     name      String  // the other person's name
 
     @@index([pioneerId, direction])
+}
+
+// ---------------------------------------------------------------------------
+// User activity — tracks pioneer page views for the admin dashboard
+// ---------------------------------------------------------------------------
+
+model PioneerView {
+    id          Int      @id @default(autoincrement())
+    pioneer     Pioneer  @relation(fields: [pioneerId], references: [id], onDelete: Cascade)
+    pioneerId   Int
+    viewedAt    DateTime @default(now())
+    ipHash      String?  // SHA-256 hash of IP — no raw PII stored
+
+    @@index([pioneerId])
+    @@index([viewedAt])
 }
