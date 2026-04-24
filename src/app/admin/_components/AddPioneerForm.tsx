@@ -4,16 +4,9 @@ import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { createPioneer } from "@/app/admin/_actions/pioneer";
+import { ERA_LABELS } from "@/lib/utils";
 
-const ERAS = [
-  "AncientMedieval",
-  "Mechanical",
-  "EarlyElectronic",
-  "ColdWar",
-  "PersonalComputing",
-  "InternetAge",
-  "AIEra",
-] as const;
+const ERAS = Object.keys(ERA_LABELS);
 const GENDERS = ["Male", "Female", "Unknown"] as const;
 const WORK_TYPES = [
   "Paper",
@@ -159,16 +152,27 @@ export function AddPioneerForm() {
             />
           </Field>
           <Field label="Era" required>
-            <select name="era" required className={selectCls}>
+            <select name="era" required defaultValue="" className={selectCls}>
+              <option value="" disabled>
+                Select era…
+              </option>
               {ERAS.map((e) => (
                 <option key={e} value={e}>
-                  {e}
+                  {ERA_LABELS[e] ?? e}
                 </option>
               ))}
             </select>
           </Field>
           <Field label="Gender" required>
-            <select name="gender" required className={selectCls}>
+            <select
+              name="gender"
+              required
+              defaultValue=""
+              className={selectCls}
+            >
+              <option value="" disabled>
+                Select gender…
+              </option>
               {GENDERS.map((g) => (
                 <option key={g} value={g}>
                   {g}
