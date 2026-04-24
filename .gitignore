@@ -56,6 +56,13 @@ yarn-error.log*
 
 # VS Code files
 
+# Prisma generated client (auto-generated on postinstall)
+/generated/
+
+# Local data pipeline artefacts — images uploaded to Azure Blob Storage
+/local_db_storage/images/
+/local_db_storage/pioneers_clean.csv
+
 # Agentic Files
 .codex/
 .cursor/
