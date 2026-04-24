@@ -52,14 +52,14 @@ export function ExploreFilters({
         placeholder="Search name, field, country…"
         defaultValue={currentQ}
         onChange={(e) => navigate({ q: e.target.value, page: "1" })}
-        className="h-9 w-full rounded border border-border bg-card px-3 font-mono text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring sm:w-64"
+        className="border-border bg-card text-foreground placeholder:text-muted-foreground focus:ring-ring h-9 w-full rounded border px-3 font-mono text-sm focus:ring-1 focus:outline-none sm:w-64"
       />
 
       {/* Era */}
       <select
         value={currentEra}
         onChange={(e) => navigate({ era: e.target.value, page: "1" })}
-        className="h-9 rounded border border-border bg-card px-2 font-mono text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring sm:w-44"
+        className="border-border bg-card text-foreground focus:ring-ring h-9 rounded border px-2 font-mono text-sm focus:ring-1 focus:outline-none sm:w-44"
       >
         <option value="">All eras</option>
         {Object.entries(ERA_LABELS).map(([value, label]) => (
@@ -73,7 +73,7 @@ export function ExploreFilters({
       <select
         value={currentField}
         onChange={(e) => navigate({ field: e.target.value, page: "1" })}
-        className="h-9 rounded border border-border bg-card px-2 font-mono text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring sm:w-52"
+        className="border-border bg-card text-foreground focus:ring-ring h-9 rounded border px-2 font-mono text-sm focus:ring-1 focus:outline-none sm:w-52"
       >
         <option value="">All fields</option>
         {fields.map((f) => (
@@ -87,7 +87,7 @@ export function ExploreFilters({
       <select
         value={currentCountry}
         onChange={(e) => navigate({ country: e.target.value, page: "1" })}
-        className="h-9 rounded border border-border bg-card px-2 font-mono text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring sm:w-48"
+        className="border-border bg-card text-foreground focus:ring-ring h-9 rounded border px-2 font-mono text-sm focus:ring-1 focus:outline-none sm:w-48"
       >
         <option value="">All countries</option>
         {countries.map((c) => (

@@ -38,7 +38,11 @@ async function getPioneers(sp: SearchParams) {
     ...(sp.field
       ? {
           classifications: {
-            some: { classification: { name: { equals: sp.field, mode: "insensitive" as const } } },
+            some: {
+              classification: {
+                name: { equals: sp.field, mode: "insensitive" as const },
+              },
+            },
           },
         }
       : {}),
@@ -105,17 +109,17 @@ export default async function ExplorePage({ searchParams }: Props) {
   const hasFilters = !!(sp.q ?? sp.era ?? sp.field ?? sp.country);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background min-h-screen">
       {/* Header */}
-      <div className="border-b border-border bg-background">
+      <div className="border-border bg-background border-b">
         <div className="mx-auto max-w-7xl px-4 py-10 md:px-6">
-          <p className="mb-1 text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
+          <p className="text-muted-foreground mb-1 text-[10px] font-medium tracking-widest uppercase">
             Encyclopedia
           </p>
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="text-foreground text-3xl font-bold tracking-tight">
             Explore Pioneers
           </h1>
-          <p className="mt-1 font-mono text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-1 font-mono text-sm">
             {total} result{total !== 1 ? "s" : ""}
             {hasFilters ? " matching filters" : " in total"}
           </p>
@@ -152,7 +156,7 @@ export default async function ExplorePage({ searchParams }: Props) {
             )}
             <Link
               href="/explore"
-              className="text-xs text-muted-foreground underline-offset-2 hover:text-foreground hover:underline"
+              className="text-muted-foreground hover:text-foreground text-xs underline-offset-2 hover:underline"
             >
               Clear all
             </Link>
@@ -162,12 +166,12 @@ export default async function ExplorePage({ searchParams }: Props) {
         {/* Grid */}
         {pioneers.length === 0 ? (
           <div className="flex min-h-[40vh] flex-col items-center justify-center gap-3">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               No pioneers found for these filters.
             </p>
             <Link
               href="/explore"
-              className="text-xs text-muted-foreground underline-offset-2 hover:text-foreground hover:underline"
+              className="text-muted-foreground hover:text-foreground text-xs underline-offset-2 hover:underline"
             >
               Clear filters
             </Link>
@@ -182,10 +186,10 @@ export default async function ExplorePage({ searchParams }: Props) {
                 <Link
                   key={p.id}
                   href={`/pioneer/${slugify(p.name)}`}
-                  className="group flex flex-col overflow-hidden rounded-lg border border-border bg-card transition-colors hover:bg-accent"
+                  className="group border-border bg-card hover:bg-accent flex flex-col overflow-hidden rounded-lg border transition-colors"
                 >
                   {/* Portrait */}
-                  <div className="relative aspect-[3/4] w-full overflow-hidden bg-muted">
+                  <div className="bg-muted relative aspect-[3/4] w-full overflow-hidden">
                     {imgSrc ? (
                       <PioneerImage
                         src={imgSrc}
@@ -198,7 +202,7 @@ export default async function ExplorePage({ searchParams }: Props) {
                       <AvatarPlaceholder name={p.name} />
                     )}
                     <span
-                      className="absolute bottom-1.5 left-1.5 rounded px-1 py-0.5 text-[9px] font-medium uppercase tracking-wide text-white"
+                      className="absolute bottom-1.5 left-1.5 rounded px-1 py-0.5 text-[9px] font-medium tracking-wide text-white uppercase"
                       style={{ backgroundColor: eraColor }}
                     >
                       {eraLabel}
@@ -207,14 +211,14 @@ export default async function ExplorePage({ searchParams }: Props) {
 
                   {/* Info */}
                   <div className="flex flex-1 flex-col gap-1 p-2.5">
-                    <p className="line-clamp-1 text-[11px] font-semibold text-foreground">
+                    <p className="text-foreground line-clamp-1 text-[11px] font-semibold">
                       {p.name}
                     </p>
-                    <p className="line-clamp-1 text-[10px] text-muted-foreground">
+                    <p className="text-muted-foreground line-clamp-1 text-[10px]">
                       {p.birthCountry}
                     </p>
                     {p.classifications.length > 0 && (
-                      <p className="mt-auto line-clamp-1 text-[9px] uppercase tracking-wide text-muted-foreground/70">
+                      <p className="text-muted-foreground/70 mt-auto line-clamp-1 text-[9px] tracking-wide uppercase">
                         {p.classifications[0]?.classification.name}
                       </p>
                     )}
@@ -229,23 +233,17 @@ export default async function ExplorePage({ searchParams }: Props) {
         {totalPages > 1 && (
           <div className="mt-10 flex items-center justify-center gap-2">
             {page > 1 && (
-              <PaginationLink
-                sp={sp}
-                page={page - 1}
-                label="← Prev"
-              />
+              <PaginationLink sp={sp} page={page - 1} label="← Prev" />
             )}
 
             <div className="flex items-center gap-1">
               {Array.from({ length: totalPages }, (_, i) => i + 1)
                 .filter(
-                  (p) =>
-                    p === 1 ||
-                    p === totalPages ||
-                    Math.abs(p - page) <= 2,
+                  (p) => p === 1 || p === totalPages || Math.abs(p - page) <= 2,
                 )
                 .reduce<(number | "…")[]>((acc, p, idx, arr) => {
-                  if (idx > 0 && p - (arr[idx - 1] as number) > 1)
+                  const prev = arr[idx - 1];
+                  if (idx > 0 && typeof prev === "number" && p - prev > 1)
                     acc.push("…");
                   acc.push(p);
                   return acc;
@@ -254,7 +252,7 @@ export default async function ExplorePage({ searchParams }: Props) {
                   p === "…" ? (
                     <span
                       key={`ellipsis-${i}`}
-                      className="px-1 text-xs text-muted-foreground"
+                      className="text-muted-foreground px-1 text-xs"
                     >
                       …
                     </span>
@@ -271,11 +269,7 @@ export default async function ExplorePage({ searchParams }: Props) {
             </div>
 
             {page < totalPages && (
-              <PaginationLink
-                sp={sp}
-                page={page + 1}
-                label="Next →"
-              />
+              <PaginationLink sp={sp} page={page + 1} label="Next →" />
             )}
           </div>
         )}
@@ -311,7 +305,7 @@ function FilterChip({
   return (
     <Link
       href={href}
-      className="flex items-center gap-1 rounded border border-border bg-muted px-2 py-0.5 text-[11px] text-foreground transition-colors hover:bg-accent"
+      className="border-border bg-muted text-foreground hover:bg-accent flex items-center gap-1 rounded border px-2 py-0.5 text-[11px] transition-colors"
     >
       {label}
       <span className="text-muted-foreground">✕</span>
