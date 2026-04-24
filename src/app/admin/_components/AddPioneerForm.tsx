@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { createPioneer } from "@/app/admin/_actions/pioneer";
 
 const ERAS = [
@@ -54,6 +55,12 @@ export function AddPioneerForm() {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Image upload state
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
   // Dynamic list states
   const [funFacts, setFunFacts] = useState<string[]>([""]);
   const [classifications, setClassifications] = useState<string[]>([""]);
@@ -67,12 +74,41 @@ export function AddPioneerForm() {
     { title: string; type: string; year: string }[]
   >([{ title: "", type: "Other", year: "" }]);
 
+  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadError(null);
+    setImagePreview(URL.createObjectURL(file));
+    setUploading(true);
+
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: fd,
+      });
+      const json = (await res.json()) as { url?: string; error?: string };
+      if (!res.ok || !json.url) {
+        throw new Error(json.error ?? "Upload failed");
+      }
+      setImageUrl(json.url);
+    } catch (err) {
+      setUploadError(err instanceof Error ? err.message : "Upload failed");
+      setImagePreview(null);
+    } finally {
+      setUploading(false);
+    }
+  }
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setPending(true);
     setError(null);
 
     const fd = new FormData(formRef.current!);
+    if (imageUrl) fd.set("imageLocal", imageUrl);
 
     // Append dynamic lists
     funFacts.filter(Boolean).forEach((f) => fd.append("funFacts", f));
@@ -192,6 +228,64 @@ export function AddPioneerForm() {
               placeholder="1954"
             />
           </Field>
+        </div>
+      </section>
+
+      {/* Portrait Image */}
+      <section className="border-border bg-card rounded-lg border p-6">
+        <h2 className="text-muted-foreground mb-5 text-xs font-medium tracking-widest uppercase">
+          Portrait Image
+        </h2>
+        <div className="flex items-start gap-6">
+          {/* Preview */}
+          <div className="border-border bg-muted relative h-32 w-24 flex-none overflow-hidden rounded-lg border">
+            {imagePreview ? (
+              <Image
+                src={imagePreview}
+                alt="Preview"
+                fill
+                className="object-cover object-top"
+                sizes="96px"
+                unoptimized
+              />
+            ) : (
+              <div className="flex h-full items-center justify-center">
+                <span className="text-muted-foreground/40 text-[10px] tracking-widest uppercase">
+                  No image
+                </span>
+              </div>
+            )}
+            {uploading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                <span className="text-[10px] text-white">Uploading…</span>
+              </div>
+            )}
+          </div>
+
+          {/* Input + status */}
+          <div className="flex flex-col gap-2">
+            <label className="border-border bg-muted text-foreground hover:bg-accent inline-flex cursor-pointer items-center gap-2 rounded border px-4 py-2 text-sm font-medium transition-colors">
+              <input
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/gif"
+                className="sr-only"
+                onChange={handleFileChange}
+                disabled={uploading}
+              />
+              {uploading ? "Uploading…" : "Choose image"}
+            </label>
+            <p className="text-muted-foreground/60 text-[11px]">
+              JPEG, PNG, WebP or GIF · max 5 MB
+            </p>
+            {uploadError && (
+              <p className="text-destructive text-[11px]">{uploadError}</p>
+            )}
+            {imageUrl && !uploading && (
+              <p className="text-[11px] text-green-600 dark:text-green-400">
+                ✓ Uploaded
+              </p>
+            )}
+          </div>
         </div>
       </section>
 

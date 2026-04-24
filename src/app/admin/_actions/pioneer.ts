@@ -22,6 +22,7 @@ async function requireAdmin() {
 
 const PioneerSchema = z.object({
   name: z.string().min(1),
+  imageLocal: z.string().url().optional(),
   knownFor: z.string().optional(),
   intro: z.string().min(1),
   longBio: z.string().optional(),
@@ -77,6 +78,7 @@ export async function createPioneer(formData: FormData) {
 
   const raw = {
     name: formData.get("name"),
+    imageLocal: formData.get("imageLocal") ?? undefined,
     knownFor: formData.get("knownFor") ?? undefined,
     intro: formData.get("intro"),
     longBio: formData.get("longBio") ?? undefined,
@@ -114,6 +116,7 @@ export async function createPioneer(formData: FormData) {
     data: {
       name: data.name,
       slug: slugify(data.name),
+      imageLocal: data.imageLocal,
       knownFor: data.knownFor,
       intro: data.intro,
       longBio: data.longBio,

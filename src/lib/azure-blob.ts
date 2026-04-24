@@ -32,3 +32,18 @@ export async function getBlobStream(blobName: string) {
     contentLength: download.contentLength,
   };
 }
+
+export async function uploadBlob(
+  blobName: string,
+  data: Buffer,
+  contentType: string,
+): Promise<string> {
+  const containerClient = getBlobServiceClient().getContainerClient(
+    env.AZURE_STORAGE_CONTAINER,
+  );
+  const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+  await blockBlobClient.uploadData(data, {
+    blobHTTPHeaders: { blobContentType: contentType },
+  });
+  return `https://${env.AZURE_STORAGE_ACCOUNT_NAME}.blob.core.windows.net/${env.AZURE_STORAGE_CONTAINER}/${blobName}`;
+}
