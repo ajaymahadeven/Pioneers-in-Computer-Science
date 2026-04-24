@@ -87,7 +87,7 @@ export default async function TimelinePage() {
         {groups.map(([key, group]) => (
           <div key={key} className="mb-14">
             {/* Sticky decade/century header */}
-            <div className="bg-background sticky top-14 z-10 -mx-4 mb-6 border-b border-dashed px-4 py-2 md:-mx-6 md:px-6">
+            <div className="bg-solid sticky top-14 z-10 -mx-4 mb-6 border-b border-dashed px-4 py-2 md:-mx-6 md:px-6">
               <h2 className="text-foreground font-mono text-sm font-semibold tracking-widest">
                 {groupLabel(group[0]?.contributionYear ?? 0)}
                 <span className="text-muted-foreground ml-3 font-normal">

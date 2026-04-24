@@ -69,6 +69,14 @@ body {
   color: hsl(240 5% 96%);
 }
 
+/* ── Solid opaque surfaces (header, dropdown, sticky elements) ── */
+.bg-solid {
+  background-color: hsl(0 0% 100%);
+}
+.dark .bg-solid {
+  background-color: hsl(0 0% 0%);
+}
+
 /* ── Dot-grid (hero sections) ── */
 .dot-grid {
   background-image: radial-gradient(
