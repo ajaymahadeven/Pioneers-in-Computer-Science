@@ -20,18 +20,6 @@ const CHART_COLORS = [
   "#00bcd4",
 ];
 
-function decadeColor(decade: string): string {
-  const year = parseInt(decade);
-  if (isNaN(year)) return ERA_COLORS.AncientMedieval ?? "#888888";
-  if (year < 1700) return ERA_COLORS.AncientMedieval ?? "#888888";
-  if (year < 1850) return ERA_COLORS.Mechanical ?? "#888888";
-  if (year < 1940) return ERA_COLORS.EarlyElectronic ?? "#888888";
-  if (year < 1970) return ERA_COLORS.ColdWar ?? "#888888";
-  if (year < 1990) return ERA_COLORS.PersonalComputing ?? "#888888";
-  if (year < 2010) return ERA_COLORS.InternetAge ?? "#888888";
-  return ERA_COLORS.AIEra ?? "#888888";
-}
-
 export async function generateMetadata(): Promise<Metadata> {
   const total = await db.pioneer.count();
   return {
@@ -47,7 +35,6 @@ export default async function InsightsPage() {
     genderCounts,
     countryCounts,
     fieldCounts,
-    decadeCounts,
     withImage,
     withBio,
     withAwards,
@@ -73,28 +60,10 @@ export default async function InsightsPage() {
       orderBy: { pioneers: { _count: "desc" } },
       take: 15,
     }),
-    db.pioneer.groupBy({
-      by: ["contributionYear"],
-      _count: { id: true },
-      orderBy: { contributionYear: "asc" },
-    }),
     db.pioneer.count({ where: { imageLocal: { not: null } } }),
     db.pioneer.count({ where: { longBio: { not: null } } }),
     db.pioneer.count({ where: { awards: { some: {} } } }),
   ]);
-
-  // Bucket contribution years into decades
-  const decades: Record<string, number> = {};
-  for (const { contributionYear, _count } of decadeCounts) {
-    if (!contributionYear) continue;
-    const decade =
-      contributionYear < 1900
-        ? `${Math.floor(contributionYear / 100) + 1}th C.`
-        : `${Math.floor(contributionYear / 10) * 10}s`;
-    decades[decade] = (decades[decade] ?? 0) + _count.id;
-  }
-  const decadeEntries = Object.entries(decades);
-  const maxDecade = Math.max(...decadeEntries.map(([, v]) => v));
 
   const maxCountry = Math.max(...countryCounts.map((c) => c._count.id));
   const maxField = Math.max(...fieldCounts.map((f) => f._count.pioneers));
@@ -191,77 +160,36 @@ export default async function InsightsPage() {
           </div>
         </Section>
 
-        {/* Two-column: gender + completeness */}
-        <div className="grid gap-6 sm:grid-cols-2">
-          {/* Gender breakdown */}
-          <Section title="Gender Breakdown">
-            <div className="space-y-3">
-              {genderCounts.map(({ gender, _count }) => {
-                const pct = Math.round((_count.id / total) * 100);
-                const colors: Record<string, string> = {
-                  Male: "#2980b9",
-                  Female: "#c0392b",
-                  Unknown: "#888888",
-                };
-                const color = colors[gender] ?? "#888888";
-                return (
-                  <div key={gender}>
-                    <div className="mb-1 flex justify-between font-mono text-xs">
-                      <span className="text-foreground">{gender}</span>
-                      <span className="text-muted-foreground">
-                        {_count.id} · {pct}%
-                      </span>
-                    </div>
-                    <div className="bg-muted h-2 w-full overflow-hidden rounded-full">
-                      <div
-                        className="h-full rounded-full"
-                        style={{ width: `${pct}%`, backgroundColor: color }}
-                      />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </Section>
-
-          {/* Contribution decade density */}
-          <Section title="Activity by Decade">
-            <div className="flex h-32 items-end gap-1">
-              {decadeEntries.map(([decade, count]) => {
-                const h = Math.round((count / maxDecade) * 100);
-                const color = decadeColor(decade);
-                return (
-                  <div
-                    key={decade}
-                    className="group flex flex-1 flex-col items-center gap-1"
-                  >
-                    <span
-                      className="hidden font-mono text-[8px] group-hover:block"
-                      style={{ color }}
-                    >
-                      {count}
+        {/* Gender breakdown */}
+        <Section title="Gender Breakdown">
+          <div className="space-y-3">
+            {genderCounts.map(({ gender, _count }) => {
+              const pct = Math.round((_count.id / total) * 100);
+              const colors: Record<string, string> = {
+                Male: "#2980b9",
+                Female: "#c0392b",
+                Unknown: "#888888",
+              };
+              const color = colors[gender] ?? "#888888";
+              return (
+                <div key={gender}>
+                  <div className="mb-1 flex justify-between font-mono text-xs">
+                    <span className="text-foreground">{gender}</span>
+                    <span className="text-muted-foreground">
+                      {_count.id} · {pct}%
                     </span>
+                  </div>
+                  <div className="bg-muted h-2 w-full overflow-hidden rounded-full">
                     <div
-                      className="w-full rounded-t transition-opacity hover:opacity-80"
-                      style={{
-                        height: `${h}%`,
-                        backgroundColor: color + "99",
-                        borderTop: `2px solid ${color}`,
-                      }}
-                      title={`${decade}: ${count}`}
+                      className="h-full rounded-full"
+                      style={{ width: `${pct}%`, backgroundColor: color }}
                     />
-                    <span
-                      className="font-mono text-[8px]"
-                      style={{ writingMode: "vertical-rl", color }}
-                    >
-                      {decade}
-                    </span>
                   </div>
-                );
-              })}
-            </div>
-          </Section>
-        </div>
+                </div>
+              );
+            })}
+          </div>
+        </Section>
 
         {/* Top countries */}
         <Section title="Top Countries of Origin">
