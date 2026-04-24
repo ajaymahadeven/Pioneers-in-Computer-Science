@@ -30,6 +30,7 @@ export function SiteHeader() {
             {[
               { href: "/explore", label: "Explore" },
               { href: "/timeline", label: "Timeline" },
+              { href: "/insights", label: "Insights" },
               { href: "/random", label: "Random" },
             ].map(({ href, label }) => (
               <Link

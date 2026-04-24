@@ -103,8 +103,40 @@ export default async function PioneerPage({ params }: Props) {
     (i) => i.direction === "influenced",
   );
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: pioneer.name,
+    ...(pioneer.knownFor ? { description: pioneer.knownFor } : {}),
+    ...(pioneer.birthYear ? { birthDate: String(pioneer.birthYear) } : {}),
+    ...(pioneer.deathYear ? { deathDate: String(pioneer.deathYear) } : {}),
+    ...(pioneer.birthCountry
+      ? { birthPlace: { "@type": "Place", name: pioneer.birthCountry } }
+      : {}),
+    ...(pioneer.nationality ? { nationality: pioneer.nationality } : {}),
+    ...(imageSrc ? { image: `https://pioneers-in-cs.com${imageSrc}` } : {}),
+    ...(pioneer.awards.length > 0
+      ? {
+          award: pioneer.awards.map((a) =>
+            a.year ? `${a.name} (${a.year})` : a.name,
+          ),
+        }
+      : {}),
+    ...(pioneer.classifications.length > 0
+      ? {
+          knowsAbout: pioneer.classifications.map((c) => c.classification.name),
+        }
+      : {}),
+    url: `https://pioneers-in-cs.com/pioneer/${pioneer.slug}`,
+    sameAs: [],
+  };
+
   return (
     <div className="bg-background min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Breadcrumb nav */}
       <div className="border-border bg-solid border-b">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3 md:px-6">
