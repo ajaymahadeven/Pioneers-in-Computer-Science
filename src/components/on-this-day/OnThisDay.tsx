@@ -70,7 +70,7 @@ export async function OnThisDay() {
           </div>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {picks.map((p) => {
             if (!p) return null;
             const imgSrc = blobToProxyUrl(p.imageLocal);
@@ -81,7 +81,7 @@ export async function OnThisDay() {
               <Link
                 key={p.id}
                 href={`/pioneer/${p.slug}`}
-                className="border-border bg-card hover:bg-accent group flex items-center gap-4 rounded-lg border p-4 transition-colors"
+                className="border-border bg-card hover:bg-accent group flex min-w-0 items-center gap-3 rounded-lg border p-3 transition-colors sm:gap-4 sm:p-4"
               >
                 <div
                   className="relative h-16 w-12 flex-none overflow-hidden rounded"

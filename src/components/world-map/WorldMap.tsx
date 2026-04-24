@@ -71,7 +71,7 @@ export function WorldMap({ points }: { points: MapPoint[] }) {
 
   return (
     <section className="bg-white py-20 dark:bg-[#1e1e1e]">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
         <div className="mb-10">
           <p className="mb-2 text-xs font-semibold tracking-widest text-[#5c5a56] uppercase dark:text-[#8a8785]">
             Global Impact

@@ -94,7 +94,7 @@ export default async function InsightsPage() {
 
       <div className="mx-auto max-w-5xl space-y-10 px-4 py-12 md:px-6">
         {/* Completeness strip */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {completeness.map(({ label, count }) => {
             const pct = Math.round((count / total) * 100);
             return (

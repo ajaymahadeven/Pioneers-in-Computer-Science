@@ -104,7 +104,7 @@ export function SearchPalette({
       />
 
       {/* Palette */}
-      <div className="fixed top-[15vh] left-1/2 z-50 w-full max-w-xl -translate-x-1/2 px-4">
+      <div className="fixed top-[15vh] left-1/2 z-50 w-[calc(100%-2rem)] max-w-xl -translate-x-1/2">
         <div className="border-border bg-solid overflow-hidden rounded-xl border shadow-2xl">
           {/* Input row */}
           <div className="border-border flex items-center gap-3 border-b px-4 py-3">

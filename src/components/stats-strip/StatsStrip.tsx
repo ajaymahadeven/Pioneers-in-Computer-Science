@@ -13,7 +13,7 @@ export function StatsStrip(props: StatsProps) {
   return (
     <section className="border-border bg-muted border-y">
       <div className="mx-auto max-w-7xl px-4 py-8 md:px-6">
-        <dl className="grid grid-cols-2 gap-6 lg:grid-cols-4">
+        <dl className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
           {stats.map(({ value, label }) => (
             <div key={label} className="flex flex-col gap-1">
               <dt className="text-muted-foreground text-xs font-medium tracking-widest uppercase">

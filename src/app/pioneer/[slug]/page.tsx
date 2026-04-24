@@ -178,7 +178,7 @@ export default async function PioneerPage({ params }: Props) {
         {/* Header */}
         <div className="mb-12 flex flex-col gap-8 sm:flex-row sm:items-start">
           {/* Portrait */}
-          <div className="border-border bg-muted relative h-48 w-40 flex-none overflow-hidden rounded-lg border">
+          <div className="border-border bg-muted relative h-40 w-32 flex-none overflow-hidden rounded-lg border sm:h-48 sm:w-40">
             {imageSrc ? (
               <PioneerImage
                 src={imageSrc}

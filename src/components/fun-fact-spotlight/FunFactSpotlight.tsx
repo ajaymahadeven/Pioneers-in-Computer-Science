@@ -43,7 +43,7 @@ export function FunFactSpotlight({ pioneer }: { pioneer: FunFactPioneer }) {
             {/* Portrait */}
             <Link
               href={`/pioneer/${slugify(pioneer.name)}`}
-              className="group relative h-40 w-40 flex-none overflow-hidden rounded-lg border border-white/10"
+              className="group relative h-32 w-32 flex-none overflow-hidden rounded-lg border border-white/10 sm:h-40 sm:w-40"
             >
               {imageSrc ? (
                 <PioneerImage
