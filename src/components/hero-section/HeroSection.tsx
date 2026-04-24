@@ -8,8 +8,12 @@ import type { HeroPioneer } from "@/types/pioneer";
 
 export function HeroSection({
   mosaicPioneers,
+  totalPioneers,
+  totalFields,
 }: {
   mosaicPioneers: HeroPioneer[];
+  totalPioneers: number;
+  totalFields: number;
 }) {
   return (
     <section className="relative min-h-[88vh] overflow-hidden bg-white dark:bg-black">
@@ -20,7 +24,7 @@ export function HeroSection({
         {/* Left — text */}
         <div className="flex flex-1 flex-col gap-6 lg:max-w-[52%]">
           <span className="w-fit rounded border border-black/15 bg-black/5 px-2.5 py-1 text-xs font-medium tracking-widest text-black/50 uppercase dark:border-white/15 dark:bg-white/8 dark:text-white/50">
-            184 Pioneers · 12 Centuries · 52 Fields
+            {totalPioneers} Pioneers · 12 Centuries · {totalFields} Fields
           </span>
 
           <h1 className="text-5xl leading-[1.08] font-bold tracking-tight text-black sm:text-6xl lg:text-7xl dark:text-white">

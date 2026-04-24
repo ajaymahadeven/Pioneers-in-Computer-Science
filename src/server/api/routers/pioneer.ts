@@ -1,4 +1,3 @@
-import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 
 const ERA_META: Record<
@@ -101,7 +100,7 @@ export const pioneerRouter = createTRPCRouter({
     return {
       totalPioneers,
       totalCountries: countryRows.length,
-      totalEras: 7,
+      totalEras: eraRows.length,
       totalFields: classifications.length,
       eras,
       classifications,
@@ -159,28 +158,4 @@ export const pioneerRouter = createTRPCRouter({
       },
     });
   }),
-
-  getBySlug: publicProcedure
-    .input(z.object({ slug: z.string() }))
-    .query(async ({ ctx, input }) => {
-      const name = input.slug
-        .split("-")
-        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-        .join(" ");
-
-      return ctx.db.pioneer.findFirst({
-        where: { name: { equals: name, mode: "insensitive" } },
-        include: {
-          classifications: {
-            include: { classification: true },
-          },
-          education: { orderBy: { year: "asc" } },
-          awards: { orderBy: { year: "asc" } },
-          institutions: true,
-          notableWorks: { orderBy: { year: "asc" } },
-          funFacts: { orderBy: { order: "asc" } },
-          influences: true,
-        },
-      });
-    }),
 });

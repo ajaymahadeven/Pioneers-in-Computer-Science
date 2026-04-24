@@ -5,8 +5,10 @@ import type { FeaturedPioneer } from "@/types/pioneer";
 
 export function FeaturedPioneers({
   pioneers,
+  totalPioneers,
 }: {
   pioneers: FeaturedPioneer[];
+  totalPioneers: number;
 }) {
   return (
     <section className="bg-muted py-16">
@@ -24,7 +26,7 @@ export function FeaturedPioneers({
             href="/explore"
             className="text-muted-foreground hover:text-foreground flex items-center gap-1 text-sm transition-colors"
           >
-            View all 184 <ArrowRight className="h-3.5 w-3.5" />
+            View all {totalPioneers} <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
 

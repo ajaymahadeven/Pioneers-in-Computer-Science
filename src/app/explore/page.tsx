@@ -10,11 +10,13 @@ import type { Metadata } from "next";
 
 const PER_PAGE = 24;
 
-export const metadata: Metadata = {
-  title: "Explore Pioneers",
-  description:
-    "Browse all 184 pioneers in computer science. Filter by era, field, or country.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const total = await db.pioneer.count();
+  return {
+    title: "Explore Pioneers",
+    description: `Browse all ${total} pioneers in computer science. Filter by era, field, or country.`,
+  };
+}
 
 interface SearchParams {
   q?: string;

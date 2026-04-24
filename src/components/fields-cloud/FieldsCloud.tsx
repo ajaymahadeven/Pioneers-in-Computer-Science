@@ -19,7 +19,7 @@ export function FieldsCloud({
       <div className="mx-auto max-w-7xl px-4 md:px-6">
         <div className="mb-8">
           <p className="text-muted-foreground mb-1.5 text-xs font-medium tracking-widest uppercase">
-            52 Disciplines
+            {classifications.length} Disciplines
           </p>
           <h2 className="text-foreground text-2xl font-semibold tracking-tight">
             What field are you curious about?
@@ -33,7 +33,7 @@ export function FieldsCloud({
           {classifications.map(({ name, count }) => (
             <Link
               key={name}
-              href={`/explore?classification=${encodeURIComponent(name)}`}
+              href={`/explore?field=${encodeURIComponent(name)}`}
               style={{ fontSize: fontSize(count) }}
               className="border-border bg-card text-foreground hover:bg-foreground hover:text-background rounded-md border px-3 py-1.5 font-medium transition-colors"
             >

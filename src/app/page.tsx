@@ -15,8 +15,17 @@ import { WorldMapSkeleton } from "@/components/world-map/WorldMapSkeleton";
 import { SiteFooter } from "@/components/site-footer/SiteFooter";
 
 async function HeroData() {
-  const featured = await api.pioneer.getFeatured();
-  return <HeroSection mosaicPioneers={featured.slice(0, 7)} />;
+  const [featured, stats] = await Promise.all([
+    api.pioneer.getFeatured(),
+    api.pioneer.getStats(),
+  ]);
+  return (
+    <HeroSection
+      mosaicPioneers={featured.slice(0, 7)}
+      totalPioneers={stats.totalPioneers}
+      totalFields={stats.totalFields}
+    />
+  );
 }
 
 async function StatsData() {
@@ -44,8 +53,13 @@ async function EraData() {
 }
 
 async function FeaturedData() {
-  const featured = await api.pioneer.getFeatured();
-  return <FeaturedPioneers pioneers={featured} />;
+  const [featured, stats] = await Promise.all([
+    api.pioneer.getFeatured(),
+    api.pioneer.getStats(),
+  ]);
+  return (
+    <FeaturedPioneers pioneers={featured} totalPioneers={stats.totalPioneers} />
+  );
 }
 
 async function FieldsData() {
