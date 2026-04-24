@@ -27,6 +27,7 @@ export function SiteHeader() {
           <nav className="hidden items-center gap-1 sm:flex">
             {[
               { href: "/explore", label: "Explore" },
+              { href: "/timeline", label: "Timeline" },
               { href: "/random", label: "Random" },
             ].map(({ href, label }) => (
               <Link

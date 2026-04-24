@@ -34,6 +34,7 @@ export function SiteFooter() {
               {[
                 { href: "/", label: "Home" },
                 { href: "/explore", label: "Explore All Pioneers" },
+                { href: "/timeline", label: "Timeline" },
                 { href: "/random", label: "Random Pioneer" },
               ].map(({ href, label }) => (
                 <Link
