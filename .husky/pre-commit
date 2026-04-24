@@ -1,31 +1,53 @@
-# #!/bin/bash
+#!/bin/sh
 
-# echo '🔄 Running pre-commit checks: styling, linting, type-checking, and more.'
+echo '✈️  PRE-FLIGHT CHECKLIST - Preparing for takeoff...\n'
 
-# # Check Prettier standards
-# npm run check-format ||
+# Check Prettier standards
+echo '📋 [1/3] Checking code formatting...'
+npm run format:check ||
+(
+    echo '\n❌ FORMATTING CHECK FAILED
+    └─ Code style does not meet standards
+    └─ Run: npm run format
+    └─ Then: git add . && git commit again\n';
+    false;
+)
+echo '✓ Code formatting passed\n'
+
+# Check ESLint Standards
+echo '📋 [2/3] Running ESLint checks...'
+npm run lint ||
+(
+    echo '\n❌ LINTING CHECK FAILED
+    └─ Fix the issues listed above
+    └─ Then: git add . && git commit again\n'
+    false;
+)
+echo '✓ ESLint passed\n'
+
+# Check tsconfig standards
+echo '📋 [3/3] Running TypeScript type checks...'
+npm run typecheck ||
+(
+    echo '\n❌ TYPE CHECK FAILED
+    └─ Fix type errors listed above
+    └─ Then: git add . && git commit again\n'
+    false;
+)
+echo '✓ Type checking passed\n'
+
+# Optional build check (commented out for speed)
+# echo '📋 [4/4] Building project...'
+# npm run build ||
 # (
-#     echo "⚠️ Prettier Check Failed. Please run $(npm run format), review the changes, and try committing again.";
+#     echo '\n❌ BUILD FAILED
+#     └─ Review build errors above
+#     └─ Fix issues and try again\n'
 #     false;
 # )
+# echo '✓ Build successful\n'
 
-# # Check ESLint Standards
-# npm run lint ||
-# (
-#     echo '⚠️ ESLint Check Failed. Please address the issues listed above, add the changes, and try committing again.';
-#     false;
-# )
-
-
-
-# # If everything passes... Now we can commit - commented this code to be optional too much time
-# # echo '🚀 Code looks good. Proceeding with the build...'
-
-# # npm run build ||
-# # (
-# #     echo '❌ Build Failed. Please review the build errors above and make necessary corrections.';
-# #     false;
-# # )
-
-# # If everything passes... Now we can commit
-# echo '✅ All checks passed. Proceeding with the commit.'
+# Success!
+echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+echo '✅ ALL SYSTEMS GO - Cleared for takeoff! 🛫'
+echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n'

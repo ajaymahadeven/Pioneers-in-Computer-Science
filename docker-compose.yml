@@ -1,0 +1,29 @@
+services:
+    pgsql:
+        container_name: pioneers_pgsql
+        image: postgres:18-trixie
+        platform: linux/amd64
+        shm_size: 128mb
+        ports:
+            - '5433:5432'
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_DB: ${POSTGRES_DB}
+        volumes:
+            - pioneers_postgres_data:/var/lib/postgresql
+        restart: unless-stopped
+        networks:
+            pioneers_dockernet:
+                ipv4_address: 172.20.20.10
+
+volumes:
+    pioneers_postgres_data:
+
+networks:
+    pioneers_dockernet:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.20.20.0/24

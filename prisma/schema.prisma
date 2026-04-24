@@ -1,0 +1,192 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+    output   = "../generated/prisma"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Enums
+// ---------------------------------------------------------------------------
+
+enum Era {
+    AncientMedieval
+    Mechanical
+    EarlyElectronic
+    ColdWar
+    PersonalComputing
+    InternetAge
+    AIEra
+}
+
+enum Gender {
+    Male
+    Female
+    Unknown
+}
+
+enum WorkType {
+    Paper
+    Book
+    System
+    Language
+    Algorithm
+    Other
+}
+
+// ---------------------------------------------------------------------------
+// Core
+// ---------------------------------------------------------------------------
+
+model Pioneer {
+    id               Int      @id @default(autoincrement())
+    name             String   @unique
+    slug             String   @unique @default("")
+    knownFor         String?
+    intro            String
+    longBio          String?
+    achievement      String
+    birthYear        Int?
+    deathYear        Int?
+    birthCity        String?
+    birthCountry     String
+    nationality      String?
+    century          Int
+    contributionYear Int
+    era              Era
+    gender           Gender
+    latitude         Float?
+    longitude        Float?
+    imageLocal       String?
+
+    classifications  PioneerClassification[]
+    education        Education[]
+    awards           Award[]
+    institutions     Institution[]
+    notableWorks     NotableWork[]
+    funFacts         FunFact[]
+    influences       Influence[]
+    views            PioneerView[]
+
+    @@index([era])
+    @@index([contributionYear])
+    @@index([birthCountry])
+    @@index([gender])
+}
+
+// ---------------------------------------------------------------------------
+// Classification (many-to-many tag system)
+// ---------------------------------------------------------------------------
+
+model Classification {
+    id       Int                     @id @default(autoincrement())
+    name     String                  @unique
+    pioneers PioneerClassification[]
+}
+
+model PioneerClassification {
+    pioneer          Pioneer        @relation(fields: [pioneerId], references: [id], onDelete: Cascade)
+    pioneerId        Int
+    classification   Classification @relation(fields: [classificationId], references: [id], onDelete: Cascade)
+    classificationId Int
+
+    @@id([pioneerId, classificationId])
+}
+
+// ---------------------------------------------------------------------------
+// Related entities (one-to-many off Pioneer)
+// ---------------------------------------------------------------------------
+
+model Education {
+    id          Int     @id @default(autoincrement())
+    pioneer     Pioneer @relation(fields: [pioneerId], references: [id], onDelete: Cascade)
+    pioneerId   Int
+    institution String
+    degree      String?
+    field       String?
+    year        Int?
+}
+
+model Award {
+    id        Int     @id @default(autoincrement())
+    pioneer   Pioneer @relation(fields: [pioneerId], references: [id], onDelete: Cascade)
+    pioneerId Int
+    name      String
+    year      Int?
+}
+
+model Institution {
+    id        Int     @id @default(autoincrement())
+    pioneer   Pioneer @relation(fields: [pioneerId], references: [id], onDelete: Cascade)
+    pioneerId Int
+    name      String
+    role      String?
+    years     String?
+}
+
+model NotableWork {
+    id        Int      @id @default(autoincrement())
+    pioneer   Pioneer  @relation(fields: [pioneerId], references: [id], onDelete: Cascade)
+    pioneerId Int
+    title     String
+    type      WorkType @default(Other)
+    year      Int?
+}
+
+model FunFact {
+    id        Int     @id @default(autoincrement())
+    pioneer   Pioneer @relation(fields: [pioneerId], references: [id], onDelete: Cascade)
+    pioneerId Int
+    fact      String
+    order     Int
+}
+
+// ---------------------------------------------------------------------------
+// Influence graph
+// Stored as name strings (not FK) because many referenced people
+// are outside the 184-pioneer dataset.
+// ---------------------------------------------------------------------------
+
+model Influence {
+    id        Int     @id @default(autoincrement())
+    pioneer   Pioneer @relation(fields: [pioneerId], references: [id], onDelete: Cascade)
+    pioneerId Int
+    direction String  // "influencedBy" | "influenced"
+    name      String  // the other person's name
+
+    @@index([pioneerId, direction])
+}
+
+// ---------------------------------------------------------------------------
+// User activity — tracks pioneer page views for the admin dashboard
+// ---------------------------------------------------------------------------
+
+model PioneerView {
+    id          Int      @id @default(autoincrement())
+    pioneer     Pioneer  @relation(fields: [pioneerId], references: [id], onDelete: Cascade)
+    pioneerId   Int
+    viewedAt    DateTime @default(now())
+    ipHash      String?
+
+    @@index([pioneerId])
+    @@index([viewedAt])
+}
+
+// ---------------------------------------------------------------------------
+// Contact form — rate-limit 1 submission per IP per hour
+// ---------------------------------------------------------------------------
+
+model ContactSubmission {
+    id          Int      @id @default(autoincrement())
+    ipHash      String
+    submittedAt DateTime @default(now())
+
+    @@index([ipHash])
+    @@index([submittedAt])
+}

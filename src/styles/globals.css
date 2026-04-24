@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  /* Apple Flat — Light */
+  --background:          oklch(1 0 0);
+  --foreground:          oklch(0.14 0 0);
+  --card:                oklch(1 0 0);
+  --card-foreground:     oklch(0.14 0 0);
+  --popover:             oklch(1 0 0);
+  --popover-foreground:  oklch(0.14 0 0);
+  --primary:             oklch(0.14 0 0);
+  --primary-foreground:  oklch(1 0 0);
+  --secondary:           oklch(0.96 0.004 264);
+  --secondary-foreground: oklch(0.14 0 0);
+  --muted:               oklch(0.96 0.004 264);
+  --muted-foreground:    oklch(0.46 0.007 264);
+  --accent:              oklch(0.94 0.005 264);
+  --accent-foreground:   oklch(0.14 0 0);
+  --destructive:         oklch(0.55 0.22 27);
+  --destructive-foreground: oklch(1 0 0);
+  --border:              oklch(0.84 0.003 264);
+  --input:               oklch(0.84 0.003 264);
+  --ring:                oklch(0.14 0 0);
+  --radius:              0.375rem;
+}
+
+/* Apple Flat — Dark */
+.dark {
+  --background:          oklch(0 0 0);
+  --foreground:          oklch(0.96 0.004 264);
+  --card:                oklch(0.1 0 0);
+  --card-foreground:     oklch(0.96 0.004 264);
+  --popover:             oklch(0.1 0 0);
+  --popover-foreground:  oklch(0.96 0.004 264);
+  --primary:             oklch(0.96 0.004 264);
+  --primary-foreground:  oklch(0 0 0);
+  --secondary:           oklch(0.14 0 0);
+  --secondary-foreground: oklch(0.96 0.004 264);
+  --muted:               oklch(0.14 0 0);
+  --muted-foreground:    oklch(0.46 0.007 264);
+  --accent:              oklch(0.17 0 0);
+  --accent-foreground:   oklch(0.96 0.004 264);
+  --destructive:         oklch(0.4 0.18 27);
+  --destructive-foreground: oklch(0.96 0.004 264);
+  --border:              oklch(0.21 0 0);
+  --input:               oklch(0.21 0 0);
+  --ring:                oklch(0.96 0.004 264);
+}
+
+/* ── Base ── */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: hsl(0 0% 100%);
+  color: hsl(0 0% 11%);
+}
+
+.dark body {
+  background-color: hsl(0 0% 0%);
+  color: hsl(240 5% 96%);
+}
+
+/* ── Solid opaque surfaces (header, dropdown, sticky elements) ── */
+.bg-solid {
+  background-color: hsl(0 0% 100%);
+}
+.dark .bg-solid {
+  background-color: hsl(0 0% 0%);
+}
+
+/* ── Dot-grid (hero sections) ── */
+.dot-grid {
+  background-image: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.1) 1px,
+    transparent 1px
+  );
+  background-size: 20px 20px;
+}
+
+.dot-grid-light {
+  background-image: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 0.07) 1px,
+    transparent 1px
+  );
+  background-size: 20px 20px;
+}
+
+/* ── Selection ── */
+::selection {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.dark ::selection {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ── Focus ring ── */
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: hsl(240 2% 83%); border-radius: 9999px; }
+.dark ::-webkit-scrollbar-thumb { background: hsl(0 0% 18%); }
