@@ -1,11 +1,10 @@
 #!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
 
 echo '✈️  PRE-FLIGHT CHECKLIST - Preparing for takeoff...\n'
 
 # Check Prettier standards
 echo '📋 [1/3] Checking code formatting...'
-npm run check-format ||
+npm run format:check ||
 (
     echo '\n❌ FORMATTING CHECK FAILED
     └─ Code style does not meet standards
@@ -28,7 +27,7 @@ echo '✓ ESLint passed\n'
 
 # Check tsconfig standards
 echo '📋 [3/3] Running TypeScript type checks...'
-npm run check-types ||
+npm run typecheck ||
 (
     echo '\n❌ TYPE CHECK FAILED
     └─ Fix type errors listed above
