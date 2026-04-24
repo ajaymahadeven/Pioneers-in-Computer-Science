@@ -31,17 +31,16 @@ async function recordView(pioneerId: number) {
   }
 }
 
+export async function generateStaticParams() {
+  const pioneers = await db.pioneer.findMany({ select: { slug: true } });
+  return pioneers.map((p) => ({ slug: p.slug }));
+}
+
 export default async function PioneerPage({ params }: Props) {
   const { slug } = await params;
 
-  // Convert slug back to a name for lookup (best-effort)
-  const nameLike = slug
-    .split("-")
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ");
-
-  const pioneer = await db.pioneer.findFirst({
-    where: { name: { equals: nameLike, mode: "insensitive" } },
+  const pioneer = await db.pioneer.findUnique({
+    where: { slug },
     include: {
       classifications: { include: { classification: true } },
       education: { orderBy: { year: "asc" } },
@@ -360,12 +359,8 @@ function InfluenceChip({ name }: { name: string }) {
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
-  const nameLike = slug
-    .split("-")
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ");
-  const pioneer = await db.pioneer.findFirst({
-    where: { name: { equals: nameLike, mode: "insensitive" } },
+  const pioneer = await db.pioneer.findUnique({
+    where: { slug },
     select: { name: true, knownFor: true, intro: true },
   });
   if (!pioneer) return {};

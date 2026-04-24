@@ -8,6 +8,7 @@ import {
   ADMIN_COOKIE_NAME,
   verifyAdminSession,
 } from "@/app/_lib/admin-session";
+import { slugify } from "@/lib/utils";
 import type { Era, Gender, WorkType } from "../../../../generated/prisma";
 
 async function requireAdmin() {
@@ -112,6 +113,7 @@ export async function createPioneer(formData: FormData) {
   await db.pioneer.create({
     data: {
       name: data.name,
+      slug: slugify(data.name),
       knownFor: data.knownFor,
       intro: data.intro,
       longBio: data.longBio,

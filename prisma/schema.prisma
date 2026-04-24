@@ -47,6 +47,7 @@ enum WorkType {
 model Pioneer {
     id               Int      @id @default(autoincrement())
     name             String   @unique
+    slug             String   @unique @default("")
     knownFor         String?
     intro            String
     longBio          String?
