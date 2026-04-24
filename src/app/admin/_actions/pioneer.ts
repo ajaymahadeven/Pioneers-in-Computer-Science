@@ -9,7 +9,7 @@ import {
   verifyAdminSession,
 } from "@/app/_lib/admin-session";
 import { slugify } from "@/lib/utils";
-import type { Era, Gender, WorkType } from "../../../../generated/prisma";
+import type { WorkType } from "../../../../generated/prisma";
 
 async function requireAdmin() {
   const cookieStore = await cookies();
@@ -128,8 +128,8 @@ export async function createPioneer(formData: FormData) {
       nationality: data.nationality,
       century: data.century,
       contributionYear: data.contributionYear,
-      era: data.era as Era,
-      gender: data.gender as Gender,
+      era: data.era,
+      gender: data.gender,
       latitude: data.latitude,
       longitude: data.longitude,
       classifications: {
@@ -260,8 +260,8 @@ export async function updatePioneer(id: number, formData: FormData) {
         nationality: data.nationality ?? null,
         century: data.century,
         contributionYear: data.contributionYear,
-        era: data.era as Era,
-        gender: data.gender as Gender,
+        era: data.era,
+        gender: data.gender,
         latitude: data.latitude ?? null,
         longitude: data.longitude ?? null,
       },
