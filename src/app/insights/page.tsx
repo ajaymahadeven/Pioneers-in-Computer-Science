@@ -2,6 +2,36 @@ import { db } from "@/server/db";
 import { ERA_COLORS, ERA_LABELS } from "@/lib/utils";
 import type { Metadata } from "next";
 
+const CHART_COLORS = [
+  "#2980b9",
+  "#c0392b",
+  "#27ae60",
+  "#8e44ad",
+  "#d35400",
+  "#16a085",
+  "#f39c12",
+  "#2c3e50",
+  "#e74c3c",
+  "#1abc9c",
+  "#9b59b6",
+  "#e67e22",
+  "#3498db",
+  "#e91e63",
+  "#00bcd4",
+];
+
+function decadeColor(decade: string): string {
+  const year = parseInt(decade);
+  if (isNaN(year)) return ERA_COLORS.AncientMedieval ?? "#888888";
+  if (year < 1700) return ERA_COLORS.AncientMedieval ?? "#888888";
+  if (year < 1850) return ERA_COLORS.Mechanical ?? "#888888";
+  if (year < 1940) return ERA_COLORS.EarlyElectronic ?? "#888888";
+  if (year < 1970) return ERA_COLORS.ColdWar ?? "#888888";
+  if (year < 1990) return ERA_COLORS.PersonalComputing ?? "#888888";
+  if (year < 2010) return ERA_COLORS.InternetAge ?? "#888888";
+  return ERA_COLORS.AIEra ?? "#888888";
+}
+
 export async function generateMetadata(): Promise<Metadata> {
   const total = await db.pioneer.count();
   return {
@@ -199,22 +229,30 @@ export default async function InsightsPage() {
             <div className="flex h-32 items-end gap-1">
               {decadeEntries.map(([decade, count]) => {
                 const h = Math.round((count / maxDecade) * 100);
+                const color = decadeColor(decade);
                 return (
                   <div
                     key={decade}
                     className="group flex flex-1 flex-col items-center gap-1"
                   >
-                    <span className="text-muted-foreground hidden font-mono text-[8px] group-hover:block">
+                    <span
+                      className="hidden font-mono text-[8px] group-hover:block"
+                      style={{ color }}
+                    >
                       {count}
                     </span>
                     <div
-                      className="bg-foreground/20 hover:bg-foreground/40 w-full rounded-t transition-colors"
-                      style={{ height: `${h}%` }}
+                      className="w-full rounded-t transition-opacity hover:opacity-80"
+                      style={{
+                        height: `${h}%`,
+                        backgroundColor: color + "99",
+                        borderTop: `2px solid ${color}`,
+                      }}
                       title={`${decade}: ${count}`}
                     />
                     <span
-                      className="text-muted-foreground font-mono text-[8px]"
-                      style={{ writingMode: "vertical-rl" }}
+                      className="font-mono text-[8px]"
+                      style={{ writingMode: "vertical-rl", color }}
                     >
                       {decade}
                     </span>
@@ -228,7 +266,8 @@ export default async function InsightsPage() {
         {/* Top countries */}
         <Section title="Top Countries of Origin">
           <div className="grid gap-2 sm:grid-cols-2">
-            {countryCounts.map(({ birthCountry, _count }) => {
+            {countryCounts.map(({ birthCountry, _count }, i) => {
+              const color = CHART_COLORS[i % CHART_COLORS.length] ?? "#888888";
               const pct = (_count.id / maxCountry) * 100;
               return (
                 <div key={birthCountry} className="flex items-center gap-3">
@@ -240,11 +279,14 @@ export default async function InsightsPage() {
                       className="flex h-full items-center justify-end rounded pr-1.5 transition-all"
                       style={{
                         width: `${pct}%`,
-                        backgroundColor: "hsl(var(--foreground) / 0.12)",
-                        borderRight: "2px solid hsl(var(--foreground) / 0.4)",
+                        backgroundColor: color + "33",
+                        borderRight: `2px solid ${color}`,
                       }}
                     >
-                      <span className="text-muted-foreground font-mono text-[9px]">
+                      <span
+                        className="font-mono text-[9px] font-semibold"
+                        style={{ color }}
+                      >
                         {_count.id}
                       </span>
                     </div>
@@ -259,10 +301,14 @@ export default async function InsightsPage() {
         <Section title="Top Fields of Work">
           <div className="space-y-2">
             {fieldCounts.map((f, i) => {
+              const color = CHART_COLORS[i % CHART_COLORS.length] ?? "#888888";
               const pct = (f._count.pioneers / maxField) * 100;
               return (
                 <div key={f.name} className="flex items-center gap-3">
-                  <span className="text-muted-foreground w-5 flex-none text-right font-mono text-[10px]">
+                  <span
+                    className="w-5 flex-none text-right font-mono text-[10px] font-semibold"
+                    style={{ color }}
+                  >
                     {i + 1}
                   </span>
                   <span className="text-foreground w-48 flex-none truncate text-xs">
@@ -273,11 +319,15 @@ export default async function InsightsPage() {
                       className="h-full rounded transition-all"
                       style={{
                         width: `${pct}%`,
-                        backgroundColor: "hsl(var(--foreground) / 0.15)",
+                        backgroundColor: color + "44",
+                        borderRight: `2px solid ${color}`,
                       }}
                     />
                   </div>
-                  <span className="text-muted-foreground w-6 flex-none text-right font-mono text-[10px]">
+                  <span
+                    className="w-6 flex-none text-right font-mono text-[10px] font-semibold"
+                    style={{ color }}
+                  >
                     {f._count.pioneers}
                   </span>
                 </div>
