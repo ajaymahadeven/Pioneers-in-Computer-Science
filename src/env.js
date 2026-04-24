@@ -18,6 +18,9 @@ export const env = createEnv({
     GITHUB_CLIENT_SECRET: z.string().min(1),
     ADMIN_GITHUB_USER_ID: z.string().min(1),
     ADMIN_JWT_SECRET: z.string().min(32),
+    AZURE_COMMUNICATION_CONNECTION_STRING: z.string().min(1),
+    AZURE_COMMUNICATION_SENDER_EMAIL: z.string().min(1),
+    CONTACT_RECIPIENT_EMAIL: z.string().email(),
   },
 
   client: {
@@ -34,6 +37,9 @@ export const env = createEnv({
     GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
     ADMIN_GITHUB_USER_ID: process.env.ADMIN_GITHUB_USER_ID,
     ADMIN_JWT_SECRET: process.env.ADMIN_JWT_SECRET,
+    AZURE_COMMUNICATION_CONNECTION_STRING: process.env.AZURE_COMMUNICATION_CONNECTION_STRING,
+    AZURE_COMMUNICATION_SENDER_EMAIL: process.env.AZURE_COMMUNICATION_SENDER_EMAIL,
+    CONTACT_RECIPIENT_EMAIL: process.env.CONTACT_RECIPIENT_EMAIL,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
   },
   /**

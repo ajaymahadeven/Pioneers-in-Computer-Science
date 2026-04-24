@@ -64,8 +64,6 @@ model Pioneer {
     latitude         Float?
     longitude        Float?
     imageLocal       String?
-    imageSource      String?
-    imageLicense     String?
 
     classifications  PioneerClassification[]
     education        Education[]
@@ -174,8 +172,21 @@ model PioneerView {
     pioneer     Pioneer  @relation(fields: [pioneerId], references: [id], onDelete: Cascade)
     pioneerId   Int
     viewedAt    DateTime @default(now())
-    ipHash      String?  // SHA-256 hash of IP — no raw PII stored
+    ipHash      String?
 
     @@index([pioneerId])
     @@index([viewedAt])
+}
+
+// ---------------------------------------------------------------------------
+// Contact form — rate-limit 1 submission per IP per hour
+// ---------------------------------------------------------------------------
+
+model ContactSubmission {
+    id          Int      @id @default(autoincrement())
+    ipHash      String
+    submittedAt DateTime @default(now())
+
+    @@index([ipHash])
+    @@index([submittedAt])
 }

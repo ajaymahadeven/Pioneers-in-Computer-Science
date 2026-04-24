@@ -291,22 +291,6 @@ export function AddPioneerForm() {
             )}
           </div>
         </div>
-        <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          <Field label="Image Source">
-            <input
-              name="imageSource"
-              className={inputCls}
-              placeholder="e.g. Wikimedia Commons"
-            />
-          </Field>
-          <Field label="Image License">
-            <input
-              name="imageLicense"
-              className={inputCls}
-              placeholder="e.g. CC0, CC-BY-SA 4.0, Public Domain"
-            />
-          </Field>
-        </div>
       </section>
 
       {/* Biography */}

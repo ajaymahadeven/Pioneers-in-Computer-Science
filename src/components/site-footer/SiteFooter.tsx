@@ -67,6 +67,12 @@ export function SiteFooter() {
               >
                 Attribution
               </Link>
+              <Link
+                href="/contact"
+                className="text-sm text-white/45 transition-colors hover:text-white"
+              >
+                Contact
+              </Link>
               <a
                 href="https://www.wikidata.org"
                 target="_blank"

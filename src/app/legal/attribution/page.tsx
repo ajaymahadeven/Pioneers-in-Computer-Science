@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { db } from "@/server/db";
 
 export const metadata: Metadata = {
   title: "Attribution",
@@ -8,24 +7,7 @@ export const metadata: Metadata = {
     "Image credits, data sources, and licensing for Pioneers in Computer Science.",
 };
 
-export default async function AttributionPage() {
-  // Pioneers with a known image source/license
-  const credited = await db.pioneer.findMany({
-    where: { imageSource: { not: null } },
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-      imageSource: true,
-      imageLicense: true,
-    },
-    orderBy: { name: "asc" },
-  });
-
-  const withoutSource = await db.pioneer.count({
-    where: { imageLocal: { not: null }, imageSource: null },
-  });
-
+export default function AttributionPage() {
   return (
     <div className="bg-background min-h-screen">
       <div className="border-border border-b">
@@ -93,52 +75,26 @@ export default async function AttributionPage() {
           <h2 className="text-foreground mb-3 text-base font-semibold">
             Portrait Images
           </h2>
-
-          {withoutSource > 0 && (
-            <div className="mb-4 rounded-lg border border-amber-500/30 bg-amber-500/8 px-4 py-3 text-sm text-amber-700 dark:text-amber-400">
-              {withoutSource} portrait
-              {withoutSource === 1 ? "" : "s"} are missing source attribution
-              and are under review. They will be replaced or credited as soon as
-              provenance is confirmed.
-            </div>
-          )}
-
-          {credited.length > 0 ? (
-            <div className="border-border bg-card rounded-lg border">
-              <div className="border-border grid grid-cols-[1fr_1fr_auto] gap-4 border-b px-4 py-2.5 text-[10px] font-medium tracking-widest text-white/50 uppercase">
-                <span>Pioneer</span>
-                <span>Source</span>
-                <span>License</span>
-              </div>
-              <div className="divide-border divide-y">
-                {credited.map((p) => (
-                  <div
-                    key={p.id}
-                    className="grid grid-cols-[1fr_1fr_auto] items-center gap-4 px-4 py-3"
-                  >
-                    <Link
-                      href={`/pioneer/${p.slug}`}
-                      className="text-foreground truncate text-sm hover:underline"
-                    >
-                      {p.name}
-                    </Link>
-                    <span className="text-muted-foreground truncate text-xs">
-                      {p.imageSource}
-                    </span>
-                    <span className="text-muted-foreground text-xs">
-                      {p.imageLicense ?? "—"}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <div className="border-border bg-card rounded-lg border px-4 py-8 text-center">
-              <p className="text-muted-foreground text-sm">
-                Image source records are being populated. Check back soon.
-              </p>
-            </div>
-          )}
+          <div className="border-border bg-card space-y-3 rounded-lg border p-5 text-sm">
+            <p className="text-muted-foreground leading-relaxed">
+              Portrait photographs are sourced from Wikimedia Commons and other
+              public-domain or openly licensed repositories. Images are used
+              under their respective licenses (CC0, Public Domain, CC BY, or CC
+              BY-SA). Full source and license information for each image is
+              under review and will be published here.
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              If you believe an image is used incorrectly or wish to report a
+              copyright concern, please{" "}
+              <Link
+                href="/contact"
+                className="text-foreground underline underline-offset-4"
+              >
+                contact us
+              </Link>
+              .
+            </p>
+          </div>
         </div>
 
         {/* Licenses */}

@@ -61,8 +61,6 @@ interface PioneerData {
   latitude: number | null;
   longitude: number | null;
   imageLocal: string | null;
-  imageSource: string | null;
-  imageLicense: string | null;
   classifications: { classification: { name: string } }[];
   funFacts: { fact: string }[];
   awards: { name: string; year: number | null }[];
@@ -366,24 +364,6 @@ export function EditPioneerForm({ pioneer }: { pioneer: PioneerData }) {
               </p>
             )}
           </div>
-        </div>
-        <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          <Field label="Image Source">
-            <input
-              name="imageSource"
-              defaultValue={pioneer.imageSource ?? ""}
-              className={inputCls}
-              placeholder="e.g. Wikimedia Commons"
-            />
-          </Field>
-          <Field label="Image License">
-            <input
-              name="imageLicense"
-              defaultValue={pioneer.imageLicense ?? ""}
-              className={inputCls}
-              placeholder="e.g. CC0, CC-BY-SA 4.0, Public Domain"
-            />
-          </Field>
         </div>
       </section>
 
