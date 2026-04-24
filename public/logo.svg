@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="256" fill="#0f0f23"/>
+
+  <!-- Outer ring glow -->
+  <circle cx="256" cy="256" r="220" stroke="#6366f1" stroke-width="3" stroke-opacity="0.4" fill="none"/>
+
+  <!-- Circuit traces - horizontal -->
+  <line x1="80" y1="180" x2="156" y2="180" stroke="#6366f1" stroke-width="3" stroke-linecap="round"/>
+  <line x1="356" y1="180" x2="432" y2="180" stroke="#6366f1" stroke-width="3" stroke-linecap="round"/>
+  <line x1="80" y1="256" x2="136" y2="256" stroke="#6366f1" stroke-width="3" stroke-linecap="round"/>
+  <line x1="376" y1="256" x2="432" y2="256" stroke="#6366f1" stroke-width="3" stroke-linecap="round"/>
+  <line x1="80" y1="332" x2="156" y2="332" stroke="#6366f1" stroke-width="3" stroke-linecap="round"/>
+  <line x1="356" y1="332" x2="432" y2="332" stroke="#6366f1" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Circuit traces - vertical -->
+  <line x1="180" y1="80" x2="180" y2="156" stroke="#6366f1" stroke-width="3" stroke-linecap="round"/>
+  <line x1="256" y1="80" x2="256" y2="136" stroke="#6366f1" stroke-width="3" stroke-linecap="round"/>
+  <line x1="332" y1="80" x2="332" y2="156" stroke="#6366f1" stroke-width="3" stroke-linecap="round"/>
+  <line x1="180" y1="356" x2="180" y2="432" stroke="#6366f1" stroke-width="3" stroke-linecap="round"/>
+  <line x1="256" y1="376" x2="256" y2="432" stroke="#6366f1" stroke-width="3" stroke-linecap="round"/>
+  <line x1="332" y1="356" x2="332" y2="432" stroke="#6366f1" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Circuit dots at trace ends -->
+  <circle cx="80" cy="180" r="5" fill="#818cf8"/>
+  <circle cx="432" cy="180" r="5" fill="#818cf8"/>
+  <circle cx="80" cy="256" r="5" fill="#818cf8"/>
+  <circle cx="432" cy="256" r="5" fill="#818cf8"/>
+  <circle cx="80" cy="332" r="5" fill="#818cf8"/>
+  <circle cx="432" cy="332" r="5" fill="#818cf8"/>
+  <circle cx="180" cy="80" r="5" fill="#818cf8"/>
+  <circle cx="256" cy="80" r="5" fill="#818cf8"/>
+  <circle cx="332" cy="80" r="5" fill="#818cf8"/>
+  <circle cx="180" cy="432" r="5" fill="#818cf8"/>
+  <circle cx="256" cy="432" r="5" fill="#818cf8"/>
+  <circle cx="332" cy="432" r="5" fill="#818cf8"/>
+
+  <!-- Central chip body -->
+  <rect x="156" y="156" width="200" height="200" rx="16" fill="#1e1b4b" stroke="#6366f1" stroke-width="3"/>
+
+  <!-- Chip inner grid lines -->
+  <line x1="156" y1="209" x2="356" y2="209" stroke="#312e81" stroke-width="1"/>
+  <line x1="156" y1="256" x2="356" y2="256" stroke="#312e81" stroke-width="1"/>
+  <line x1="156" y1="303" x2="356" y2="303" stroke="#312e81" stroke-width="1"/>
+  <line x1="209" y1="156" x2="209" y2="356" stroke="#312e81" stroke-width="1"/>
+  <line x1="256" y1="156" x2="256" y2="356" stroke="#312e81" stroke-width="1"/>
+  <line x1="303" y1="156" x2="303" y2="356" stroke="#312e81" stroke-width="1"/>
+
+  <!-- Chip pins left -->
+  <rect x="136" y="178" width="20" height="10" rx="3" fill="#6366f1"/>
+  <rect x="136" y="204" width="20" height="10" rx="3" fill="#6366f1"/>
+  <rect x="136" y="246" width="20" height="10" rx="3" fill="#6366f1"/>
+  <rect x="136" y="272" width="20" height="10" rx="3" fill="#6366f1"/>
+  <rect x="136" y="318" width="20" height="10" rx="3" fill="#6366f1"/>
+  <rect x="136" y="344" width="20" height="10" rx="3" fill="#6366f1"/>
+
+  <!-- Chip pins right -->
+  <rect x="356" y="178" width="20" height="10" rx="3" fill="#6366f1"/>
+  <rect x="356" y="204" width="20" height="10" rx="3" fill="#6366f1"/>
+  <rect x="356" y="246" width="20" height="10" rx="3" fill="#6366f1"/>
+  <rect x="356" y="272" width="20" height="10" rx="3" fill="#6366f1"/>
+  <rect x="356" y="318" width="20" height="10" rx="3" fill="#6366f1"/>
+  <rect x="356" y="344" width="20" height="10" rx="3" fill="#6366f1"/>
+
+  <!-- Chip pins top -->
+  <rect x="178" y="136" width="10" height="20" rx="3" fill="#6366f1"/>
+  <rect x="204" y="136" width="10" height="20" rx="3" fill="#6366f1"/>
+  <rect x="246" y="136" width="10" height="20" rx="3" fill="#6366f1"/>
+  <rect x="272" y="136" width="10" height="20" rx="3" fill="#6366f1"/>
+  <rect x="318" y="136" width="10" height="20" rx="3" fill="#6366f1"/>
+  <rect x="344" y="136" width="10" height="20" rx="3" fill="#6366f1"/>
+
+  <!-- Chip pins bottom -->
+  <rect x="178" y="356" width="10" height="20" rx="3" fill="#6366f1"/>
+  <rect x="204" y="356" width="10" height="20" rx="3" fill="#6366f1"/>
+  <rect x="246" y="356" width="10" height="20" rx="3" fill="#6366f1"/>
+  <rect x="272" y="356" width="10" height="20" rx="3" fill="#6366f1"/>
+  <rect x="318" y="356" width="10" height="20" rx="3" fill="#6366f1"/>
+  <rect x="344" y="356" width="10" height="20" rx="3" fill="#6366f1"/>
+
+  <!-- Central P monogram -->
+  <text x="256" y="278" font-family="'Georgia', serif" font-size="96" font-weight="700"
+        fill="url(#textGrad)" text-anchor="middle" dominant-baseline="middle">P</text>
+
+  <!-- Gradient definitions -->
+  <defs>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a5b4fc"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Notch on chip (top-left corner marker) -->
+  <path d="M156 172 A16 16 0 0 1 172 156" stroke="#818cf8" stroke-width="2" fill="none"/>
+</svg>
