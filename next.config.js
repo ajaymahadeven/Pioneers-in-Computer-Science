@@ -10,8 +10,7 @@ const config = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "pioneersincs.blob.core.windows.net",
-        pathname: "/pioneers-images/**",
+        hostname: "avatars.githubusercontent.com",
       },
     ],
   },

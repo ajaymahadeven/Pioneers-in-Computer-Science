@@ -4,6 +4,8 @@ import { type Metadata, type Viewport } from "next";
 import { Geist } from "next/font/google";
 
 import { TRPCReactProvider } from "@/trpc/react";
+import { ThemeProvider } from "@/providers/ThemeProvider";
+import { SiteHeader } from "@/components/site-header/SiteHeader";
 
 const APP_URL = "https://pioneers-in-cs.com";
 const TITLE = "Pioneers in Computer Science";
@@ -72,8 +74,11 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0f0f23",
-  colorScheme: "dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f7f6f2" },
+    { media: "(prefers-color-scheme: dark)", color: "#141414" },
+  ],
+  colorScheme: "light dark",
 };
 
 const geist = Geist({
@@ -85,9 +90,14 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${geist.variable}`}>
-      <body>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+    <html lang="en" className={geist.variable} suppressHydrationWarning>
+      <body suppressHydrationWarning>
+        <TRPCReactProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <SiteHeader />
+            {children}
+          </ThemeProvider>
+        </TRPCReactProvider>
       </body>
     </html>
   );
