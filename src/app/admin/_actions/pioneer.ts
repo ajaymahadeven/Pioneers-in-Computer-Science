@@ -167,6 +167,158 @@ export async function createPioneer(formData: FormData) {
   return { success: true };
 }
 
+export async function getPioneerForEdit(id: number) {
+  await requireAdmin();
+
+  return db.pioneer.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      name: true,
+      slug: true,
+      knownFor: true,
+      intro: true,
+      longBio: true,
+      achievement: true,
+      birthYear: true,
+      deathYear: true,
+      birthCity: true,
+      birthCountry: true,
+      nationality: true,
+      century: true,
+      contributionYear: true,
+      era: true,
+      gender: true,
+      latitude: true,
+      longitude: true,
+      imageLocal: true,
+      classifications: {
+        select: { classification: { select: { name: true } } },
+      },
+      funFacts: { select: { fact: true }, orderBy: { order: "asc" } },
+      awards: { select: { name: true, year: true } },
+      institutions: { select: { name: true, role: true, years: true } },
+      notableWorks: { select: { title: true, type: true, year: true } },
+    },
+  });
+}
+
+export async function updatePioneer(id: number, formData: FormData) {
+  await requireAdmin();
+
+  const raw = {
+    name: formData.get("name"),
+    imageLocal: formData.get("imageLocal") ?? undefined,
+    knownFor: formData.get("knownFor") ?? undefined,
+    intro: formData.get("intro"),
+    longBio: formData.get("longBio") ?? undefined,
+    achievement: formData.get("achievement"),
+    birthYear: formData.get("birthYear") ?? undefined,
+    deathYear: formData.get("deathYear") ?? undefined,
+    birthCity: formData.get("birthCity") ?? undefined,
+    birthCountry: formData.get("birthCountry"),
+    nationality: formData.get("nationality") ?? undefined,
+    century: formData.get("century"),
+    contributionYear: formData.get("contributionYear"),
+    era: formData.get("era"),
+    gender: formData.get("gender"),
+    latitude: formData.get("latitude") ?? undefined,
+    longitude: formData.get("longitude") ?? undefined,
+    classifications: formData
+      .getAll("classifications")
+      .filter(Boolean) as string[],
+    funFacts: formData.getAll("funFacts").filter(Boolean) as string[],
+    awards: JSON.parse((formData.get("awards") as string) ?? "[]") as {
+      name: string;
+      year?: number;
+    }[],
+    institutions: JSON.parse(
+      (formData.get("institutions") as string) ?? "[]",
+    ) as { name: string; role?: string; years?: string }[],
+    notableWorks: JSON.parse(
+      (formData.get("notableWorks") as string) ?? "[]",
+    ) as { title: string; type?: string; year?: number }[],
+  };
+
+  const data = PioneerSchema.parse(raw);
+
+  await db.$transaction(async (tx) => {
+    await tx.pioneer.update({
+      where: { id },
+      data: {
+        name: data.name,
+        slug: slugify(data.name),
+        imageLocal: data.imageLocal ?? null,
+        knownFor: data.knownFor ?? null,
+        intro: data.intro,
+        longBio: data.longBio ?? null,
+        achievement: data.achievement,
+        birthYear: data.birthYear ?? null,
+        deathYear: data.deathYear ?? null,
+        birthCity: data.birthCity ?? null,
+        birthCountry: data.birthCountry,
+        nationality: data.nationality ?? null,
+        century: data.century,
+        contributionYear: data.contributionYear,
+        era: data.era as Era,
+        gender: data.gender as Gender,
+        latitude: data.latitude ?? null,
+        longitude: data.longitude ?? null,
+      },
+    });
+
+    // Replace classifications
+    await tx.pioneerClassification.deleteMany({ where: { pioneerId: id } });
+    await Promise.all(
+      data.classifications.map(async (name) => {
+        const cls = await tx.classification.upsert({
+          where: { name },
+          update: {},
+          create: { name },
+        });
+        return tx.pioneerClassification.create({
+          data: { pioneerId: id, classificationId: cls.id },
+        });
+      }),
+    );
+
+    // Replace one-to-many relations
+    await tx.funFact.deleteMany({ where: { pioneerId: id } });
+    await tx.funFact.createMany({
+      data: data.funFacts.map((fact, order) => ({
+        pioneerId: id,
+        fact,
+        order,
+      })),
+    });
+
+    await tx.award.deleteMany({ where: { pioneerId: id } });
+    await tx.award.createMany({
+      data: data.awards.map((a) => ({ pioneerId: id, ...a })),
+    });
+
+    await tx.institution.deleteMany({ where: { pioneerId: id } });
+    await tx.institution.createMany({
+      data: data.institutions.map((i) => ({ pioneerId: id, ...i })),
+    });
+
+    await tx.notableWork.deleteMany({ where: { pioneerId: id } });
+    await tx.notableWork.createMany({
+      data: data.notableWorks.map((w) => ({
+        pioneerId: id,
+        title: w.title,
+        type: (w.type ?? "Other") as WorkType,
+        year: w.year,
+      })),
+    });
+  });
+
+  revalidatePath("/");
+  revalidatePath("/explore");
+  revalidatePath(`/pioneer/${slugify(data.name)}`);
+  return { success: true };
+}
+
 export async function deletePioneer(id: number) {
   await requireAdmin();
   await db.pioneer.delete({ where: { id } });

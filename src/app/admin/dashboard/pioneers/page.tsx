@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, Pencil } from "lucide-react";
 import { db } from "@/server/db";
 import { DeletePioneerButton } from "@/app/admin/_components/DeletePioneerButton";
 import { blobToProxyUrl } from "@/lib/utils";
@@ -43,12 +43,12 @@ export default async function PioneersAdminPage() {
       </div>
 
       <div className="border-border bg-card rounded-lg border">
-        <div className="border-border text-muted-foreground grid grid-cols-[auto_1fr_auto_auto_auto] items-center gap-4 border-b px-4 py-2.5 text-[10px] font-medium tracking-widest uppercase">
+        <div className="border-border text-muted-foreground grid grid-cols-[auto_1fr_auto_auto_auto_auto] items-center gap-4 border-b px-4 py-2.5 text-[10px] font-medium tracking-widest uppercase">
           <span className="w-8" />
           <span>Name</span>
           <span className="w-32">Era</span>
           <span className="w-16 text-right">Year</span>
-          <span className="w-16 text-right">Action</span>
+          <span className="w-24 text-right">Actions</span>
         </div>
         <div className="divide-border divide-y">
           {pioneers.map((p) => {
@@ -56,7 +56,7 @@ export default async function PioneersAdminPage() {
             return (
               <div
                 key={p.id}
-                className="grid grid-cols-[auto_1fr_auto_auto_auto] items-center gap-4 px-4 py-3"
+                className="grid grid-cols-[auto_1fr_auto_auto_auto_auto] items-center gap-4 px-4 py-3"
               >
                 <div className="border-border bg-muted relative h-8 w-8 overflow-hidden rounded border">
                   {imgSrc ? (
@@ -85,7 +85,14 @@ export default async function PioneersAdminPage() {
                 <span className="text-muted-foreground w-16 text-right font-mono text-xs">
                   {p.contributionYear}
                 </span>
-                <div className="w-16 text-right">
+                <div className="flex w-24 items-center justify-end gap-2">
+                  <Link
+                    href={`/admin/dashboard/pioneers/${p.id}/edit`}
+                    className="border-border text-muted-foreground hover:bg-accent hover:text-foreground inline-flex items-center gap-1 rounded border px-2 py-1 text-[11px] transition-colors"
+                  >
+                    <Pencil className="h-3 w-3" />
+                    Edit
+                  </Link>
                   <DeletePioneerButton id={p.id} name={p.name} />
                 </div>
               </div>

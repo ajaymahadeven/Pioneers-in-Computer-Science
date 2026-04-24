@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
 import { db } from "@/server/db";
-import { slugify } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -9,8 +8,8 @@ export default async function RandomPage() {
   const skip = Math.floor(Math.random() * count);
   const pioneer = await db.pioneer.findFirst({
     skip,
-    select: { name: true },
+    select: { slug: true },
   });
 
-  redirect(pioneer ? `/pioneer/${slugify(pioneer.name)}` : "/explore");
+  redirect(pioneer ? `/pioneer/${pioneer.slug}` : "/explore");
 }
