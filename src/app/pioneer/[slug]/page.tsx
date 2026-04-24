@@ -44,7 +44,6 @@ export default async function PioneerPage({ params }: Props) {
     where: { slug },
     include: {
       classifications: {
-        include: { classification: true },
         select: { classificationId: true, classification: true },
       },
       education: { orderBy: { year: "asc" } },
