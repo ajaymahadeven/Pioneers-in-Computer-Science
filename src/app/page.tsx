@@ -12,6 +12,7 @@ import { FunFactSpotlight } from "@/components/fun-fact-spotlight/FunFactSpotlig
 import { FunFactSpotlightSkeleton } from "@/components/fun-fact-spotlight/FunFactSpotlightSkeleton";
 import { WorldMap } from "@/components/world-map/WorldMap";
 import { WorldMapSkeleton } from "@/components/world-map/WorldMapSkeleton";
+import { OnThisDay } from "@/components/on-this-day/OnThisDay";
 import { SiteFooter } from "@/components/site-footer/SiteFooter";
 
 async function HeroData() {
@@ -111,6 +112,10 @@ export default function Home() {
 
       <Suspense fallback={<WorldMapSkeleton />}>
         <MapData />
+      </Suspense>
+
+      <Suspense fallback={null}>
+        <OnThisDay />
       </Suspense>
 
       <SiteFooter />
