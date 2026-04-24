@@ -23,6 +23,8 @@ async function requireAdmin() {
 const PioneerSchema = z.object({
   name: z.string().min(1),
   imageLocal: z.string().url().optional(),
+  imageSource: z.string().optional(),
+  imageLicense: z.string().optional(),
   knownFor: z.string().optional(),
   intro: z.string().min(1),
   longBio: z.string().optional(),
@@ -79,6 +81,8 @@ export async function createPioneer(formData: FormData) {
   const raw = {
     name: formData.get("name"),
     imageLocal: formData.get("imageLocal") ?? undefined,
+    imageSource: formData.get("imageSource") ?? undefined,
+    imageLicense: formData.get("imageLicense") ?? undefined,
     knownFor: formData.get("knownFor") ?? undefined,
     intro: formData.get("intro"),
     longBio: formData.get("longBio") ?? undefined,
@@ -117,6 +121,8 @@ export async function createPioneer(formData: FormData) {
       name: data.name,
       slug: slugify(data.name),
       imageLocal: data.imageLocal,
+      imageSource: data.imageSource,
+      imageLicense: data.imageLicense,
       knownFor: data.knownFor,
       intro: data.intro,
       longBio: data.longBio,
@@ -192,6 +198,8 @@ export async function getPioneerForEdit(id: number) {
       latitude: true,
       longitude: true,
       imageLocal: true,
+      imageSource: true,
+      imageLicense: true,
       classifications: {
         select: { classification: { select: { name: true } } },
       },
@@ -209,6 +217,8 @@ export async function updatePioneer(id: number, formData: FormData) {
   const raw = {
     name: formData.get("name"),
     imageLocal: formData.get("imageLocal") ?? undefined,
+    imageSource: formData.get("imageSource") ?? undefined,
+    imageLicense: formData.get("imageLicense") ?? undefined,
     knownFor: formData.get("knownFor") ?? undefined,
     intro: formData.get("intro"),
     longBio: formData.get("longBio") ?? undefined,
@@ -249,6 +259,8 @@ export async function updatePioneer(id: number, formData: FormData) {
         name: data.name,
         slug: slugify(data.name),
         imageLocal: data.imageLocal ?? null,
+        imageSource: data.imageSource ?? null,
+        imageLicense: data.imageLicense ?? null,
         knownFor: data.knownFor ?? null,
         intro: data.intro,
         longBio: data.longBio ?? null,

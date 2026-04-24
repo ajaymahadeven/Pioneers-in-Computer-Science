@@ -1,0 +1,2 @@
+ALTER TABLE "Pioneer" ADD COLUMN IF NOT EXISTS "imageSource" TEXT;
+ALTER TABLE "Pioneer" ADD COLUMN IF NOT EXISTS "imageLicense" TEXT;

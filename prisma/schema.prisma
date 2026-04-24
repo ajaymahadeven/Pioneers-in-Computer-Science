@@ -64,6 +64,8 @@ model Pioneer {
     latitude         Float?
     longitude        Float?
     imageLocal       String?
+    imageSource      String?
+    imageLicense     String?
 
     classifications  PioneerClassification[]
     education        Education[]

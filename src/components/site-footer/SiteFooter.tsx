@@ -35,6 +35,7 @@ export function SiteFooter() {
                 { href: "/", label: "Home" },
                 { href: "/explore", label: "Explore All Pioneers" },
                 { href: "/timeline", label: "Timeline" },
+                { href: "/insights", label: "Insights" },
                 { href: "/random", label: "Random Pioneer" },
               ].map(({ href, label }) => (
                 <Link
@@ -48,38 +49,62 @@ export function SiteFooter() {
             </nav>
           </div>
 
-          {/* Sources */}
+          {/* Legal & Sources */}
           <div className="flex flex-col gap-3">
             <h3 className="text-xs font-medium tracking-widest text-white/30 uppercase">
-              Data Sources
+              Legal & Sources
             </h3>
             <nav className="flex flex-col gap-2">
-              {[
-                { href: "https://www.wikidata.org", label: "Wikidata" },
-                { href: "https://en.wikipedia.org", label: "Wikipedia" },
-                {
-                  href: "https://github.com/ajaymahadeven/Pioneers-in-Computer-Science",
-                  label: "GitHub",
-                },
-              ].map(({ href, label }) => (
-                <a
-                  key={href}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-white/45 transition-colors hover:text-white"
-                >
-                  {label} ↗
-                </a>
-              ))}
+              <Link
+                href="/legal/privacy"
+                className="text-sm text-white/45 transition-colors hover:text-white"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                href="/legal/attribution"
+                className="text-sm text-white/45 transition-colors hover:text-white"
+              >
+                Attribution
+              </Link>
+              <a
+                href="https://www.wikidata.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-white/45 transition-colors hover:text-white"
+              >
+                Wikidata ↗
+              </a>
+              <a
+                href="https://en.wikipedia.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-white/45 transition-colors hover:text-white"
+              >
+                Wikipedia ↗
+              </a>
+              <a
+                href="https://github.com/ajaymahadeven/Pioneers-in-Computer-Science"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-white/45 transition-colors hover:text-white"
+              >
+                GitHub ↗
+              </a>
             </nav>
           </div>
         </div>
 
-        <div className="mt-10 border-t border-white/8 pt-6">
-          <p className="text-center font-mono text-xs text-white/18">
-            Built with Next.js · tRPC · PostgreSQL · Azure Blob Storage
-          </p>
+        <div className="mt-10 border-t border-white/8 pt-6 text-center font-mono text-xs text-white/18">
+          Built by{" "}
+          <a
+            href="https://ajaymahadeven.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white/35 transition-colors hover:text-white/60"
+          >
+            Ajay Mahadeven
+          </a>
         </div>
       </div>
     </footer>
