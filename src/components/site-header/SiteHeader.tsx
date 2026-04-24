@@ -5,7 +5,7 @@ import { MobileMenu } from "@/components/site-header/MobileMenu";
 
 export function SiteHeader() {
   return (
-    <header className="border-border bg-background/80 sticky top-0 z-50 h-14 border-b backdrop-blur-sm">
+    <header className="border-border bg-background sticky top-0 z-50 h-14 border-b">
       <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4 md:px-6">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5">

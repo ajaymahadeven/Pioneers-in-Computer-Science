@@ -26,7 +26,7 @@ export function MobileMenu() {
       </button>
 
       {open && (
-        <div className="border-border bg-background/95 absolute top-14 right-0 left-0 z-50 border-b backdrop-blur-sm">
+        <div className="border-border bg-background absolute top-14 right-0 left-0 z-50 border-b">
           <nav className="mx-auto flex max-w-7xl flex-col px-4 py-3">
             {NAV_LINKS.map(({ href, label }) => (
               <Link

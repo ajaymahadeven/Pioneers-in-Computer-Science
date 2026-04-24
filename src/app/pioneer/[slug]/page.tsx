@@ -106,7 +106,7 @@ export default async function PioneerPage({ params }: Props) {
   return (
     <div className="bg-background min-h-screen">
       {/* Breadcrumb nav */}
-      <div className="border-border bg-background/80 border-b backdrop-blur-sm">
+      <div className="border-border bg-background border-b">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3 md:px-6">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-1 font-mono text-xs">
