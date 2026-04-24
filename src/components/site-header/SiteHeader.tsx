@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle/ThemeToggle";
 import { MobileMenu } from "@/components/site-header/MobileMenu";
+import { SearchButton } from "@/components/site-header/SearchButton";
 
 export function SiteHeader() {
   return (
@@ -40,6 +41,7 @@ export function SiteHeader() {
               </Link>
             ))}
           </nav>
+          <SearchButton />
           <ThemeToggle />
           {/* Mobile hamburger — renders its own dropdown */}
           <MobileMenu />

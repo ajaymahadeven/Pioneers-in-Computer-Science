@@ -6,6 +6,7 @@ import { Geist } from "next/font/google";
 import { TRPCReactProvider } from "@/trpc/react";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { SiteHeader } from "@/components/site-header/SiteHeader";
+import { SearchProvider } from "@/components/search-palette/SearchProvider";
 
 const APP_URL = "https://pioneers-in-cs.com";
 const TITLE = "Pioneers in Computer Science";
@@ -94,8 +95,10 @@ export default function RootLayout({
       <body suppressHydrationWarning>
         <TRPCReactProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <SiteHeader />
-            {children}
+            <SearchProvider>
+              <SiteHeader />
+              {children}
+            </SearchProvider>
           </ThemeProvider>
         </TRPCReactProvider>
       </body>
