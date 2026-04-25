@@ -1,92 +1,138 @@
-# Pioneers-in-Computer-Science (1.0)
+# Pioneers in Computer Science
 
-<em>"A society grows great when old men plant trees, the shade of which they know they will never sit in." </em>
+> *"A society grows great when old men plant trees, the shade of which they know they will never sit in."*
 
-## Dedicated to:
+Dedicated to my grandfather, **Krishnasamy V.M** — may he rest in peace.
 
-To my grandfather <strong> Krishnasamy V.M </strong>, I owe everything to him, may he rest in peace.
+---
 
-## Deployment:
+## Overview
 
-This site is no longer deployed on Heroku. A replacement site is being built and will be deployed soon.
+**Pioneers in Computer Science** is a production-grade encyclopedia of the most influential figures in computing history, spanning 12 centuries from ancient algorithmists to modern AI researchers. It features 184 curated biographies, rich data visualisations, an interactive world map, and a full admin suite.
 
-## GRADE: DISTINCTION
+Live at: [pioneers-in-computer-science.vercel.app](https://pioneers-in-computer-science.vercel.app)
 
-## Description:
+---
 
-This repository is the source code for the Pioneers in Computer Science website. The website is a collection of biographies of the most influential people in the field of Computer Science. This project was created for the CS5099 Dissertation module at the University of St Andrews as part of the MSc Software Engineering degree.
-It was created by Ajay Pradeep Mahadeven as part of his dissertation project.
+## Tech Stack
 
-## Installation:
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 15 (App Router, RSC, static generation) |
+| Language | TypeScript |
+| API | tRPC v11 |
+| ORM | Prisma 6 |
+| Database | PostgreSQL — Neon (production), Docker (development) |
+| Styling | Tailwind CSS v4 |
+| Storage | Azure Blob Storage (pioneer portraits) |
+| Email | Azure Communication Services (contact form) |
+| Auth | GitHub OAuth (admin) |
+| Deployment | Vercel |
 
-<ul>
-<li> Clone the repository to your local machine or download the zip file. </li>
-<li> Open it in your suitable IDE or terminal. </li>
-<li> Run <code> npm i </code> to install node modules and dependencies </li>
-<li> Run <code>  node app.js </code> or  <code> nodemon  app.js</code> or <code> bun app.js </code> to start the server </li>
-<li> Open localhost:3000  in your desired browser to see the website.</li>
-</ul>
+---
 
-## Deployment Instructions:
+## Features
 
-<ul>
-<li> Whichever platform you are using to deploy, remember to add the .env API keys (MongoDB & OpenAI) for the relevant places </li>
-<li> I have placed the pioneers' data (pioneers.csv) in local storage, add it if you plan to deploy and change <code>process.env.MONGO_URL</code> in the config folder , file named <code> db.js </code> </li>
-<li> I have used MongoDB Atlas to store the data. You can use the same or any other database to store the data </li>
-<li> Install the project dependencies by running <code> npm i</code> </li>
-<li> Start command : <code> node app.js </code></li>
-</ul>
+- **184 pioneer biographies** with portraits, achievements, notable works, awards, institutions, and fun facts
+- **Explore page** with filters by era, gender, country, and field
+- **Timeline** — chronological scroll through all pioneers grouped by decade
+- **Insights** — data visualisations: era distribution, gender breakdown, top countries, top fields, and data completeness
+- **World map** showing birthplaces of pioneers globally
+- **On This Day** — daily rotating spotlight of three pioneers on the home page
+- **Cmd+K search palette** — instant pioneer search with keyboard navigation
+- **Pioneer detail pages** with schema.org JSON-LD structured data and per-pioneer OG images
+- **Contact / dispute form** with Azure Communication Services email delivery, rate-limited to 1 submission per IP per hour
+- **Admin dashboard** — add, edit, and delete pioneers; image upload to Azure Blob; data completeness panel; activity analytics
+- **Static generation** with `generateStaticParams` for all 184 pioneer pages
+- **Sitemap** (`/sitemap.xml`) and `robots.txt`
+- **Privacy Policy** and **Attribution** pages
 
-## Technologies Used:
+---
 
-<ul>
-<li> Node.js </li>
-<li> Express.js </li>
-<li> MongoDB </li>
-<li> HTML </li>
-<li> CSS </li>
-<li> Bootstrap </li>
-<li> Javascript </li>
-<li> EJS </li>
-<li> Heroku </li>
-</ul>
+## Local Development
 
-## Features:
+**Prerequisites:** Node.js 20+, Docker
 
-<ul>
-<li> User can view the list of all the pioneers in the database. </li>
-<li> Users can view the birthplace of each pioneer. </li>
-<li> Users can chat with a chatbot (EVA), powered by ChatGPT </li>
-<li> Users can browse  pioneers by name, country and field </li>
-<li> Users have a feedback mechanism to provide feedback on the website (Contact Page) </li>
-<li> Users can also see the contributions of pioneers via vertical roadmap </li>
-<li> Users have the ability to further learn about the pioneers by navigating to the references </li>
-</ul>
+```bash
+# Clone
+git clone https://github.com/ajaymahadeven/Pioneers-in-Computer-Science.git
+cd Pioneers-in-Computer-Science
 
-## License:
+# Install dependencies
+npm install
 
-This project is licensed under the MIT License - see the LICENSE.md file for details
+# Copy env file and fill in your values
+cp .env.example .env
 
-## Acknowledgements:
+# Start local PostgreSQL
+docker compose up -d
 
-This project would have not been possible without the help and support of the following people:
+# Apply migrations and seed
+npx prisma migrate deploy
+npx prisma db seed
 
-<ul>
-<li> Prof. Dharini Balasubramaniam  </li>
-<li> Prof Ronald Morrison </li>
-<li> Prof. Edmund Robertson  </li>
-<li> Prof. John O'Connor </li>
-<li> Manish Mishra </li>
-<li> Niharika Kumari </li>
-<li> Felix Brown </li>
-<li> Kiran Baby</li>
-<li> Shivang Sinha </li>
-<li> Furkan Tekinay </li>
-<li> Christobal </li>
-<li> Gopichand Narra </li>
-<li> Yusuf Farag </li>
-<li> M K Mahadeven </li>
-<li> Nagheshwari Mahadeven</li>
-<li> K M Samyuktha</li>
-<li> Krishnasamy V.M </li>
-</ul>
+# Start dev server
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+---
+
+## Environment Variables
+
+| Variable | Description |
+|---|---|
+| `DATABASE_URL` | Pooled PostgreSQL connection string (Neon in production) |
+| `DATABASE_URL_UNPOOLED` | Direct PostgreSQL connection string (used for migrations) |
+| `AZURE_STORAGE_ACCOUNT_NAME` | Azure Blob Storage account name |
+| `AZURE_STORAGE_ACCOUNT_KEY` | Azure Blob Storage account key |
+| `AZURE_STORAGE_CONTAINER` | Blob container name for pioneer images |
+| `AZURE_BLOB_BASE_URL` | Public base URL for blob images |
+| `AZURE_COMMUNICATION_CONNECTION_STRING` | Azure Communication Services connection string |
+| `AZURE_COMMUNICATION_SENDER_EMAIL` | Sender address for contact form emails |
+| `CONTACT_RECIPIENT_EMAIL` | Inbox address for contact form submissions |
+| `GITHUB_CLIENT_ID` | GitHub OAuth app client ID (admin auth) |
+| `GITHUB_CLIENT_SECRET` | GitHub OAuth app client secret |
+| `ADMIN_GITHUB_USER_ID` | Numeric GitHub user ID allowed to access admin |
+| `ADMIN_JWT_SECRET` | 32+ character secret for admin JWT signing |
+| `NEXT_PUBLIC_APP_URL` | Public URL of the deployed app |
+
+See `.env.example` for the full template.
+
+---
+
+## Scripts
+
+```bash
+npm run dev          # Start development server (Turbopack)
+npm run build        # Production build
+npm run lint         # ESLint
+npm run typecheck    # TypeScript type check
+npm run format:write # Prettier format
+npm run db:studio    # Open Prisma Studio
+```
+
+---
+
+## Deployment
+
+The app deploys to Vercel on every push to `master`. Set all environment variables in the Vercel dashboard. Migrations are run manually against Neon using the direct (unpooled) connection string:
+
+```bash
+DATABASE_URL="<neon-direct-url>" npx prisma migrate deploy
+```
+
+---
+
+## License
+
+MIT — see [LICENSE](LICENSE) for details.
+
+---
+
+## Acknowledgements
+
+This project builds on the foundation of my MSc dissertation at the University of St Andrews (CS5099, distinction). It would not have been possible without:
+
+Prof. Dharini Balasubramaniam · Prof. Ronald Morrison · Prof. Edmund Robertson · Prof. John O'Connor · Manish Mishra · Niharika Kumari · Felix Brown · Kiran Baby · Shivang Sinha · Furkan Tekinay · Cristobal · Gopichand Narra · Yusuf Farag · M K Mahadeven · Nagheshwari Mahadeven · K M Samyuktha · Krishnasamy V.M
