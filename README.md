@@ -127,7 +127,7 @@ DATABASE_URL="<neon-direct-url>" npx prisma migrate deploy
 
 ## License
 
-MIT — see [LICENSE](LICENSE) for details.
+CC BY-NC 4.0 — free for personal and non-commercial use with attribution. Commercial use requires written permission and a revenue-sharing agreement with the author. See [LICENSE](LICENSE) for full terms or contact [ajaymahadeven.com](https://ajaymahadeven.com).
 
 ---
 
@@ -135,4 +135,4 @@ MIT — see [LICENSE](LICENSE) for details.
 
 This project builds on the foundation of my MSc dissertation at the University of St Andrews (CS5099, distinction). It would not have been possible without:
 
-Prof. Dharini Balasubramaniam · Prof. Ronald Morrison · Prof. Edmund Robertson · Prof. John O'Connor · Manish Mishra · Niharika Kumari · Felix Brown · Kiran Baby · Shivang Sinha · Furkan Tekinay · Cristobal · Gopichand Narra · Yusuf Farag · M K Mahadeven · Nagheshwari Mahadeven · K M Samyuktha · Krishnasamy V.M
+ Krishnasamy V.M · M K Mahadeven · Nagheshwari Mahadeven · Prof. Dharini Balasubramaniam · Prof. Ronald Morrison · Prof. Edmund Robertson · Prof. John O'Connor · Manish Mishra · Niharika Kumari · Felix Brown · Kiran Baby · Shivang Sinha · Furkan Tekinay · Cristobal · Gopichand Narra · Yusuf Farag · K M Samyuktha ·
